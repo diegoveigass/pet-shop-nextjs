@@ -1,91 +1,8 @@
 @import "tailwindcss";
 
-@theme {
-  /* Content Colors */
-  --color-content-primary: #ffffff;
-  --color-content-secondary: #98959d;
-  --color-content-tertiary: #666666;
-  --color-content-brand: #9282fa;
-
-  /* Background Colors */
-  --color-background-primary: #151515;
-  --color-background-secondary: #1e1e1e;
-  --color-background-tertiary: #23242c;
-  --color-background-brand: #9282fa;
-  --color-background-highlights: #bdb4fa;
-
-  /* Border Colors */
-  --color-border-primary: #3e3c41;
-  --color-border-secondary: #86818c;
-  --color-border-brand: #9282fa;
-  --color-border-divisor: #353339;
-
-  /* Accent Colors */
-  --color-accent-primary: #4f35e1;
-  --color-accent-primary-light: #7262fa;
-  --color-accent-blue: #027df0;
-  --color-accent-blue-light: #16487a;
-  --color-accent-yellow: #f0dc02;
-  --color-accent-yellow-light: #75601b;
-  --color-accent-orange: #f09102;
-  --color-accent-orange-light: #75501b;
-
-  /* Typography */
-  --font-family-title: "Inter Tight", sans-serif;
-  --font-family-body: "Inter", sans-serif;
-
-  /* Title Typography */
-  --text-title-size: 24px;
-  --text-title-line-height: 32px;
-  --text-title-weight: 700;
-
-  /* Body Typography */
-  --text-paragraph-medium-size: 14px;
-  --text-paragraph-medium-line-height: 24px;
-  --text-paragraph-medium-weight: 500;
-
-  --text-paragraph-small-size: 12px;
-  --text-paragraph-small-line-height: 16px;
-  --text-paragraph-small-weight: 500;
-
-  --text-label-large-size: 16px;
-  --text-label-large-line-height: 24px;
-  --text-label-large-weight: 700;
-
-  --text-label-medium-size: 14px;
-  --text-label-medium-line-height: 24px;
-  --text-label-medium-weight: 700;
-
-  --text-label-small-size: 12px;
-  --text-label-small-line-height: 16px;
-  --text-label-small-weight: 700;
-
-  --text-link-size: 12px;
-  --text-link-line-height: 16px;
-  --text-link-weight: 500;
-}
-
-:root {
-  --radius: 0.625rem;
-  --background: var(--color-background-primary);
-  --foreground: var(--color-content-primary);
-  --card: var(--color-background-secondary);
-  --card-foreground: var(--color-content-primary);
-  --popover: var(--color-background-secondary);
-  --popover-foreground: var(--color-content-primary);
-  --primary: var(--color-content-brand);
-  --primary-foreground: var(--color-content-primary);
-  --secondary: var(--color-background-tertiary);
-  --secondary-foreground: var(--color-content-primary);
-  --muted: var(--color-background-tertiary);
-  --muted-foreground: var(--color-content-secondary);
-  --accent: var(--color-accent-yellow);
-  --accent-foreground: var(--color-content-primary);
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: var(--color-border-primary);
-  --input: var(--color-border-primary);
-  --ring: var(--color-border-brand);
+@token {
+  --color-background-tertiary: var(--color-background-tertiary);
+  --color-accent-blue: var(--color-accent-blue);
 }
 
 @layer base {
@@ -235,6 +152,92 @@
   .bg-accent-orange-light {
     background-color: var(--color-accent-orange-light);
   }
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: var(--color-background-primary);
+  --foreground: var(--color-content-primary);
+  --card: var(--color-background-secondary);
+  --card-foreground: var(--color-content-primary);
+  --popover: var(--color-background-secondary);
+  --popover-foreground: var(--color-content-primary);
+  --primary: var(--color-content-brand);
+  --primary-foreground: var(--color-content-primary);
+  --secondary: var(--color-background-tertiary);
+  --secondary-foreground: var(--color-content-primary);
+  --muted: var(--color-background-tertiary);
+  --muted-foreground: var(--color-content-secondary);
+  --accent: var(--color-accent-yellow);
+  --accent-foreground: var(--color-content-primary);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: var(--color-border-primary);
+  --input: var(--color-border-primary);
+  --ring: var(--color-border-brand);
+
+  /* Content Colors */
+  --color-content-primary: #ffffff;
+  --color-content-secondary: #98959d;
+  --color-content-tertiary: #666666;
+  --color-content-brand: #9282fa;
+
+  /* Background Colors */
+  --color-background-primary: #151515;
+  --color-background-secondary: #1e1e1e;
+  --color-background-tertiary: #23242c;
+  --color-background-brand: #9282fa;
+  --color-background-highlights: #bdb4fa;
+
+  /* Border Colors */
+  --color-border-primary: #3e3c41;
+  --color-border-secondary: #86818c;
+  --color-border-brand: #9282fa;
+  --color-border-divisor: #353339;
+
+  /* Accent Colors */
+  --color-accent-primary: #4f35e1;
+  --color-accent-primary-light: #7262fa;
+  --color-accent-blue: #027df0;
+  --color-accent-blue-light: #16487a;
+  --color-accent-yellow: #f0dc02;
+  --color-accent-yellow-light: #75601b;
+  --color-accent-orange: #f09102;
+  --color-accent-orange-light: #75501b;
+
+  /* Typography */
+  --font-family-title: "Inter Tight", sans-serif;
+  --font-family-body: "Inter", sans-serif;
+
+  /* Title Typography */
+  --text-title-size: 24px;
+  --text-title-line-height: 32px;
+  --text-title-weight: 700;
+
+  /* Body Typography */
+  --text-paragraph-medium-size: 14px;
+  --text-paragraph-medium-line-height: 24px;
+  --text-paragraph-medium-weight: 500;
+
+  --text-paragraph-small-size: 12px;
+  --text-paragraph-small-line-height: 16px;
+  --text-paragraph-small-weight: 500;
+
+  --text-label-large-size: 16px;
+  --text-label-large-line-height: 24px;
+  --text-label-large-weight: 700;
+
+  --text-label-medium-size: 14px;
+  --text-label-medium-line-height: 24px;
+  --text-label-medium-weight: 700;
+
+  --text-label-small-size: 12px;
+  --text-label-small-line-height: 16px;
+  --text-label-small-weight: 700;
+
+  --text-link-size: 12px;
+  --text-link-line-height: 16px;
+  --text-link-weight: 500;
 }
 
 /* Toast Error Styles */
