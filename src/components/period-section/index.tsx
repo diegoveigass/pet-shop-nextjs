@@ -1,5 +1,5 @@
+import { Cloudy, Moon, Sun } from "lucide-react";
 import type { AppointmentPeriod } from "@/types/appointment";
-import { Sun, Moon, Cloudy } from "lucide-react";
 
 const periodIcons = {
   morning: <Sun className="text-accent-blue" />,
