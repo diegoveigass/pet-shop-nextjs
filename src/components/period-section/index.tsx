@@ -1,5 +1,6 @@
 import { Cloudy, Moon, Sun } from "lucide-react";
 import type { AppointmentPeriod } from "@/types/appointment";
+import { AppointmentCard } from "../appointment-card";
 
 const periodIcons = {
   morning: <Sun className="text-accent-blue" />,
@@ -36,9 +37,10 @@ export function PeriodSection({ period }: PeriodSectionProps) {
 
             {period.appointments.map((appointment) => {
               return (
-                <div key={appointment.id}>
-                  {appointment.petName} / {appointment.tutorName}
-                </div>
+                <AppointmentCard
+                  key={appointment.id}
+                  appointment={appointment}
+                />
               );
             })}
           </div>
