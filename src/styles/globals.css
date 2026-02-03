@@ -239,20 +239,20 @@
 
 /* Toast Error Styles */
 [data-sonner-toast][data-type="error"] {
-  background-color: #dc2626 !important;
-  border-color: #b91c1c !important;
-  color: #ffffff !important;
+  background-color: #dc2626;
+  border-color: #b91c1c;
+  color: #ffffff;
 }
 
 [data-sonner-toast][data-type="error"] [data-title] {
-  color: #ffffff !important;
-  font-weight: 700 !important;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 [data-sonner-toast][data-type="error"] [data-description] {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 [data-sonner-toast][data-type="error"] [data-icon] {
-  color: #ffffff !important;
+  color: #ffffff;
 }
