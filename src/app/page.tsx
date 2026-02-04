@@ -1,8 +1,11 @@
+import { AppointmentForm } from "@/components/appointment-form";
 import { PeriodSection } from "@/components/period-section";
 import { groupAppointmentsByPeriod } from "@/utils/appointment-utils";
 import { APPOINTMENTS } from "@/utils/mock-data";
 
-export default function Home() {
+export default async function Home() {
+  // const appointments = await prisma.appointment.findMany();
+
   const periods = groupAppointmentsByPeriod(APPOINTMENTS);
 
   return (
@@ -21,6 +24,10 @@ export default function Home() {
         {periods.map((period) => {
           return <PeriodSection key={period.title} period={period} />;
         })}
+      </div>
+
+      <div>
+        <AppointmentForm />
       </div>
     </div>
   );
