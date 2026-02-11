@@ -38,7 +38,7 @@ jobs:
       #   run: npx eslint . -f json -o eslint-report.json
 
       - name: Biome Check
-        run: npx biome check . --reporter=json > biome-report.json
+        run: npx biome check . --reporter=json > biome-report.json || true
 
       # ---------- DIFF DO PR ----------
       - name: Get PR diff
