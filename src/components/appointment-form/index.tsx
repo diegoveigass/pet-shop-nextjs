@@ -29,7 +29,7 @@ const appointmentFormSchema = z.object({
   tutorName: z.string().min(1, "O nome do tutor é obrigatório"),
   petName: z.string().min(1, "O nome do pet é obrigatório"),
   phone: z.string().min(11, "O telefone é obrigatório"),
-  description: z.string().min(1, "A descrião é obrigatória"),
+  description: z.string().min(3, "A descrião é obrigatória"),
 });
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>;
