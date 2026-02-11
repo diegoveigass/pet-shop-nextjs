@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Dog, Phone, User } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { IMaskInput } from "react-imask";
 import z from "zod";
 import { Button } from "../ui/button";
 import {
@@ -20,10 +22,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Dog, Phone, User } from "lucide-react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { IMaskInput } from "react-imask";
 
 const appointmentFormSchema = z.object({
   tutorName: z.string().min(1, "O nome do tutor é obrigatório"),
