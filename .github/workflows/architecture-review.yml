@@ -1,0 +1,53 @@
+name: Architecture Review AI
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  review-architecture:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---------- BACKEND ----------
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Run tests + ArchUnit
+        run: ./mvnw test
+
+      - name: Sonar Scan
+        run: ./mvnw sonar:sonar -Dsonar.qualitygate.wait=true
+
+      # ---------- FRONTEND ----------
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm install
+
+      - name: ESLint Report
+        run: npx eslint . -f json -o eslint-report.json
+
+      - name: Biome Check
+        run: npx biome check . --reporter=json > biome-report.json
+
+      # ---------- DIFF DO PR ----------
+      - name: Get PR diff
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff origin/${{ github.base_ref }} > pr-diff.txt
+
+      # ---------- CHAMA A IA ----------
+      - name: AI Architecture Review
+        run: node .github/scripts/ai-review.js
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
