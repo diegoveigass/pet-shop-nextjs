@@ -1,10 +1,63 @@
 import { AppointmentForm } from "@/components/appointment-form";
 import { PeriodSection } from "@/components/period-section";
-import { groupAppointmentsByPeriod } from "@/utils/appointment-utils";
+import type { Appointment as AppointmentPrisma } from "@/generated/prisma/client";
+
+import type { Appointment, AppointmentPeriod } from "@/types/appointment";
+import { getPeriod } from "@/utils/appointment-utils";
 import { APPOINTMENTS } from "@/utils/mock-data";
 
 export default async function Home() {
   // const appointments = await prisma.appointment.findMany();
+
+  function groupAppointmentsByPeriod(
+    appointments: AppointmentPrisma[],
+  ): AppointmentPeriod[] {
+    const transformedAppointment: Appointment[] = appointments.map(
+      (appointment) => {
+        return {
+          ...appointment,
+          time: appointment.scheduledAt.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          period: getPeriod(appointment.scheduledAt.getHours()),
+        };
+      },
+    );
+
+    const morningAppointments = transformedAppointment.filter(
+      (appointment) => appointment.period === "morning",
+    );
+
+    const afternoonAppointments = transformedAppointment.filter(
+      (appointment) => appointment.period === "afternoon",
+    );
+
+    const eveningAppointments = transformedAppointment.filter(
+      (appointment) => appointment.period === "evening",
+    );
+
+    return [
+      {
+        title: "Manhã",
+        type: "morning",
+        timeRange: "09h-12h",
+        appointments: morningAppointments,
+      },
+      {
+        title: "Tarde",
+        type: "afternoon",
+        timeRange: "13h-18h",
+        appointments: afternoonAppointments,
+      },
+      {
+        title: "Noite",
+        type: "evening",
+        timeRange: "19h-21h",
+        appointments: eveningAppointments,
+      },
+    ];
+  }
 
   const periods = groupAppointmentsByPeriod(APPOINTMENTS);
 
