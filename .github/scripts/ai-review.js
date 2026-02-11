@@ -13,9 +13,6 @@ ${fs.readFileSync(".github/prompts/architecture-review.txt", "utf-8")}
 ### DIFF DO PR
 ${diff}
 
-// ### ESLINT
-// ${eslint}
-
 ### BIOME
 ${biome}
 `;
