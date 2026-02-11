@@ -34,6 +34,11 @@ jobs:
       - name: Install deps
         run: npm install
 
+      - name: Install AI script deps
+        run: |
+          cd .github/scripts
+          npm install
+
       # - name: ESLint Report
       #   run: npx eslint . -f json -o eslint-report.json
 
