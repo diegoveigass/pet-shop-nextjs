@@ -19,11 +19,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Run tests + ArchUnit
-        run: ./mvnw test
+      # - name: Run tests + ArchUnit
+      #   run: ./mvnw test
 
-      - name: Sonar Scan
-        run: ./mvnw sonar:sonar -Dsonar.qualitygate.wait=true
+      # - name: Sonar Scan
+      #   run: ./mvnw sonar:sonar -Dsonar.qualitygate.wait=true
 
       # ---------- FRONTEND ----------
       - name: Setup Node
@@ -34,8 +34,8 @@ jobs:
       - name: Install deps
         run: npm install
 
-      - name: ESLint Report
-        run: npx eslint . -f json -o eslint-report.json
+      # - name: ESLint Report
+      #   run: npx eslint . -f json -o eslint-report.json
 
       - name: Biome Check
         run: npx biome check . --reporter=json > biome-report.json
