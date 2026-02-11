@@ -2,12 +2,25 @@ import { AppointmentForm } from "@/components/appointment-form";
 import { PeriodSection } from "@/components/period-section";
 import type { Appointment as AppointmentPrisma } from "@/generated/prisma/client";
 
-import type { Appointment, AppointmentPeriod } from "@/types/appointment";
-import { getPeriod } from "@/utils/appointment-utils";
+import type {
+  Appointment,
+  AppointmentPeriod,
+  AppointmentPeriodDay,
+} from "@/types/appointment";
 import { APPOINTMENTS } from "@/utils/mock-data";
 
 export default async function Home() {
   // const appointments = await prisma.appointment.findMany();
+
+  function getPeriod(hour: number): AppointmentPeriodDay {
+    if (hour >= 9 && hour <= 12) {
+      return "morning";
+    } else if (hour >= 13 && hour <= 18) {
+      return "afternoon";
+    } else {
+      return "evening";
+    }
+  }
 
   function groupAppointmentsByPeriod(
     appointments: AppointmentPrisma[],
