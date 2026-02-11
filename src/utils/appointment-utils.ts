@@ -5,7 +5,7 @@ import type {
   AppointmentPeriodDay,
 } from "@/types/appointment";
 
-function getPeriod(hour: number): AppointmentPeriodDay {
+export function getPeriod(hour: number): AppointmentPeriodDay {
   if (hour >= 9 && hour <= 12) {
     return "morning";
   } else if (hour >= 13 && hour <= 18) {
