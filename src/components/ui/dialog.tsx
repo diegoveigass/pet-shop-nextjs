@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { XIcon } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { XIcon } from "lucide-react";
+import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -227,16 +227,16 @@ export {
   Dialog,
   DialogClose,
   DialogContent,
+  dialogContentVariants,
   DialogDescription,
+  dialogDescriptionVariants,
   DialogFooter,
   DialogHeader,
+  dialogHeaderVariants,
   DialogOverlay,
+  dialogOverlayVariants,
   DialogPortal,
   DialogTitle,
-  DialogTrigger,
-  dialogContentVariants,
-  dialogOverlayVariants,
-  dialogHeaderVariants,
   dialogTitleVariants,
-  dialogDescriptionVariants,
+  DialogTrigger,
 };
