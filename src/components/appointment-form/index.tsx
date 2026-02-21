@@ -1,8 +1,19 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Dog, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -12,17 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Dog, User } from "lucide-react";
 
 const appointmentFormSchema = z.object({
   tutorName: z.string().min(3, "O nome do tutor é obrigatório"),
