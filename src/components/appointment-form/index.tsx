@@ -5,7 +5,9 @@ import { format, startOfToday } from "date-fns";
 import {
   CalendarIcon,
   ChevronDownIcon,
+  Clock,
   Dog,
+  Loader2,
   Phone,
   User,
   XIcon,
@@ -35,6 +37,13 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const appointmentFormSchema = z.object({
   tutorName: z.string().min(3, "O nome do tutor é obrigatório"),
@@ -48,6 +57,7 @@ const appointmentFormSchema = z.object({
     .min(startOfToday(), {
       message: "A data não pode ser no passado.",
     }),
+  time: z.string().min(1, "A hora é obrigatória"),
 });
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>;
@@ -61,6 +71,7 @@ export function AppointmentForm() {
       phone: "",
       description: "",
       scheduledAt: undefined,
+      time: "",
     },
   });
 
@@ -191,67 +202,131 @@ export function AppointmentForm() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="scheduledAt"
-              render={({ field }) => (
-                <FormItem className="flex flex-col w-full">
-                  <FormLabel className="text-label-medium-size text-content-primary">
-                    Data
-                  </FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <div className="flex items-center w-full relative">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            className={cn(
-                              "flex-1 text-left font-normal bg-background-tertiary border-border-primary text-content-primary hover:bg-background-tertiary hover:border-border-secondary hover:text-content-primary focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-border-brand focus:border-border-brand focus-visible:border-border-brand",
-                              !field.value && "text-content-secondary",
-                            )}
-                          >
-                            <div className="flex items-center gap-2 w-full">
-                              <CalendarIcon className="size-4 text-content-brand" />
+            <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+              <FormField
+                control={form.control}
+                name="scheduledAt"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col w-full">
+                    <FormLabel className="text-label-medium-size text-content-primary">
+                      Data
+                    </FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <div className="flex items-center w-full relative">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className={cn(
+                                "flex-1 text-left font-normal bg-background-tertiary border-border-primary text-content-primary hover:bg-background-tertiary hover:border-border-secondary hover:text-content-primary focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-border-brand focus:border-border-brand focus-visible:border-border-brand",
+                                !field.value && "text-content-secondary",
+                              )}
+                            >
+                              <div className="flex items-center gap-2 w-full">
+                                <CalendarIcon className="size-4 text-content-brand" />
+                                {field.value ? (
+                                  format(field.value, "dd/MM/yyyy")
+                                ) : (
+                                  <span>Selecione uma data</span>
+                                )}
+                              </div>
+                            </Button>
+                            <div className="flex items-center absolute right-2">
                               {field.value ? (
-                                format(field.value, "dd/MM/yyyy")
+                                <XIcon
+                                  className="size-4 opacity-50"
+                                  onClick={handleClearDate}
+                                />
                               ) : (
-                                <span>Selecione uma data</span>
+                                <ChevronDownIcon className="size-4 opacity-50" />
                               )}
                             </div>
-                          </Button>
-                          <div className="flex items-center absolute right-2">
-                            {field.value ? (
-                              <XIcon
-                                className="size-4 opacity-50"
-                                onClick={handleClearDate}
-                              />
-                            ) : (
-                              <ChevronDownIcon className="size-4 opacity-50" />
-                            )}
                           </div>
-                        </div>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < startOfToday()}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < startOfToday()}
+                        />
+                      </PopoverContent>
+                    </Popover>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button type="submit">Salvar</Button>
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-label-medium-size text-content-primary">
+                      Hora
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <div className="flex items-center gap-2">
+                            <Clock className="size-4 text-content-brand" />
+                            <SelectValue placeholder="--:-- --" />
+                          </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {TIME_OPTIONS.map((time) => {
+                            return (
+                              <SelectItem key={time} value={time}>
+                                {time}
+                              </SelectItem>
+                            );
+                          })}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex justify-end">
+              <Button
+                variant="brand"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="mr-2 size-4 animate-spin" />
+                )}
+                Agendar
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
   );
 }
+
+const generateTimeOptions = () => {
+  const times = [];
+
+  for (let hour = 9; hour <= 21; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      if (hour === 21 && minute > 0) break;
+      const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+      times.push(timeString);
+    }
+  }
+
+  return times;
+};
+
+const TIME_OPTIONS = generateTimeOptions();
