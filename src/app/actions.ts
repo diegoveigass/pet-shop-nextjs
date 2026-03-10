@@ -63,3 +63,60 @@ export async function createAppointment(data: AppointmentData) {
     };
   }
 }
+
+export async function updateAppointment(
+  id: string,
+  data: Partial<AppointmentData>,
+) {
+  try {
+    const parsedData = appointmentSchema.parse(data);
+
+    const { scheduledAt } = parsedData;
+    const hour = scheduledAt.getHours();
+
+    const isMorning = hour >= 9 && hour < 12;
+    const isAfternoon = hour >= 13 && hour < 18;
+    const isEvening = hour >= 19 && hour < 21;
+
+    if (!isMorning && !isAfternoon && !isEvening) {
+      return {
+        error:
+          "Appointments must be only between 9am - 12am, 13pm - 18pm and 19pm - 21pm",
+      };
+    }
+
+    const existingAppointment = await prisma.appointment.findFirst({
+      where: {
+        scheduledAt,
+        id: {
+          not: id,
+        },
+      },
+    });
+
+    if (existingAppointment) {
+      return {
+        error: "This hour of appointment is already reserved",
+      };
+    }
+
+    await prisma.appointment.update({
+      where: {
+        id,
+      },
+      data: {
+        ...parsedData,
+      },
+    });
+
+    revalidatePath("/");
+    return {
+      success: "Appointment updated sucessfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      error: "Failed to update appointment",
+    };
+  }
+}

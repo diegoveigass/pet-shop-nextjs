@@ -12,12 +12,12 @@ import {
   User,
   XIcon,
 } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { toast } from "sonner";
 import z from "zod";
-import { createAppointment } from "@/app/actions";
+import { createAppointment, updateAppointment } from "@/app/actions";
 import {
   Form,
   FormControl,
@@ -29,6 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import type { Appointment } from "@/types/appointment";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import {
@@ -66,7 +67,15 @@ const appointmentFormSchema = z.object({
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>;
 
-export function AppointmentForm() {
+type AppointmentFormProps = {
+  appointment?: Appointment;
+  children?: React.ReactNode;
+};
+
+export function AppointmentForm({
+  appointment,
+  children,
+}: AppointmentFormProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm<AppointmentFormValues>({
@@ -81,23 +90,35 @@ export function AppointmentForm() {
     },
   });
 
+  useEffect(() => {
+    form.reset(appointment);
+  }, [appointment, form]);
+
   const onSubmit = async (data: AppointmentFormValues) => {
     const [hour, minute] = data.time.split(":");
 
     const scheduledAt = new Date(data.scheduledAt);
     scheduledAt.setHours(Number(hour), Number(minute), 0, 0);
 
-    const result = await createAppointment({
-      ...data,
-      scheduledAt,
-    });
+    const isEdit = appointment != null;
+
+    const result = isEdit
+      ? await updateAppointment(appointment.id, { ...data, scheduledAt })
+      : await createAppointment({
+          ...data,
+          scheduledAt,
+        });
 
     if (result?.error) {
       toast.error(result.error);
       return;
     }
 
-    toast.success("Agendamento criado com sucesso!");
+    toast.success(
+      isEdit
+        ? "Agendamento atualizado com sucesso"
+        : "Agendamento criado com sucesso",
+    );
     form.reset();
     closeRef.current?.click();
   };
@@ -108,9 +129,7 @@ export function AppointmentForm() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="brand">Novo agendamento</Button>
-      </DialogTrigger>
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
 
       <DialogContent
         variant="appointment"
