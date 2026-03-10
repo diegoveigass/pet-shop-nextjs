@@ -12,6 +12,7 @@ import {
   User,
   XIcon,
 } from "lucide-react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -65,6 +67,8 @@ const appointmentFormSchema = z.object({
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>;
 
 export function AppointmentForm() {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
   const form = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentFormSchema),
     defaultValues: {
@@ -94,6 +98,8 @@ export function AppointmentForm() {
     }
 
     toast.success("Agendamento criado com sucesso!");
+    form.reset();
+    closeRef.current?.click();
   };
 
   function handleClearDate() {
@@ -327,6 +333,7 @@ export function AppointmentForm() {
             </div>
           </form>
         </Form>
+        <DialogClose ref={closeRef} className="hidden" />
       </DialogContent>
     </Dialog>
   );

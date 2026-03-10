@@ -14,7 +14,7 @@ type PeriodSectionProps = {
 
 export function PeriodSection({ period }: PeriodSectionProps) {
   return (
-    <section className="mb-8 bg-back rounded-xl">
+    <section className="mb-8 bg-background-secondary rounded-xl">
       <div className="flex items-center px-5 py-3 justify-between border-b border-[#2e2c30]">
         <div className="flex items-center gap-2">
           {periodIcons[period?.type]}
@@ -40,7 +40,9 @@ export function PeriodSection({ period }: PeriodSectionProps) {
           })}
         </div>
       ) : (
-        <p>Nenhum agendamento para este período</p>
+        <p className="text-paragraph-small-size text-content-secondary p-5">
+          Nenhum agendamento para este período
+        </p>
       )}
     </section>
   );
