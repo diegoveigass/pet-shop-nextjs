@@ -14,7 +14,9 @@ import {
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { IMaskInput } from "react-imask";
+import { toast } from "sonner";
 import z from "zod";
+import { createAppointment } from "@/app/actions";
 import {
   Form,
   FormControl,
@@ -75,8 +77,23 @@ export function AppointmentForm() {
     },
   });
 
-  const onSubmit = (data: AppointmentFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: AppointmentFormValues) => {
+    const [hour, minute] = data.time.split(":");
+
+    const scheduledAt = new Date(data.scheduledAt);
+    scheduledAt.setHours(Number(hour), Number(minute), 0, 0);
+
+    const result = await createAppointment({
+      ...data,
+      scheduledAt,
+    });
+
+    if (result?.error) {
+      toast.error(result.error);
+      return;
+    }
+
+    toast.success("Agendamento criado com sucesso!");
   };
 
   function handleClearDate() {
