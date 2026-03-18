@@ -120,3 +120,36 @@ export async function updateAppointment(
     };
   }
 }
+
+export async function deleteAppointment(id: string) {
+  try {
+    const existingAppointment = await prisma.appointment.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingAppointment) {
+      return {
+        error: "Appointment not found.",
+      };
+    }
+
+    await prisma.appointment.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath("/");
+
+    return {
+      success: "Appointment deleted sucessfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      error: "Failed to delete appointment",
+    };
+  }
+}
