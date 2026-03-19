@@ -3,9 +3,32 @@ import { PeriodSection } from "@/components/period-section";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { groupAppointmentsByPeriod } from "@/utils/appointment-utils";
+import { endOfDay, parseISO, startOfDay } from "date-fns";
 
-export default async function Home() {
-  const appointments = await prisma.appointment.findMany();
+type SearchParams = Promise<{
+  date?: string;
+}>;
+
+type HomeProps = {
+  searchParams: SearchParams;
+};
+
+export default async function Home({ searchParams }: HomeProps) {
+  const { date } = await searchParams;
+
+  const selectedDate = date ? parseISO(date) : new Date();
+
+  const appointments = await prisma.appointment.findMany({
+    where: {
+      scheduledAt: {
+        gte: startOfDay(selectedDate),
+        lte: endOfDay(selectedDate),
+      },
+    },
+    orderBy: {
+      scheduledAt: "asc",
+    },
+  });
 
   const periods = groupAppointmentsByPeriod(appointments);
 
