@@ -1,9 +1,10 @@
+import { endOfDay, parseISO, startOfDay } from "date-fns";
 import { AppointmentForm } from "@/components/appointment-form";
+import DatePicker from "@/components/date-picker";
 import { PeriodSection } from "@/components/period-section";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { groupAppointmentsByPeriod } from "@/utils/appointment-utils";
-import { endOfDay, parseISO, startOfDay } from "date-fns";
 
 type SearchParams = Promise<{
   date?: string;
@@ -34,7 +35,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <div className="bg-background-primary p-6">
-      <div className="flex items-center justify-between md:mb-8">
+      <div className="flex flex-col items-start justify-between gap-2 mb-8 md:flex-row md:items-center">
         <div>
           <h1 className="text-title-size text-content-primary mb-2">
             Sua agenda
@@ -42,6 +43,9 @@ export default async function Home({ searchParams }: HomeProps) {
           <p className="text-content-secondary text-paragraph-medium-size">
             Aqui você pode ver todos osclientes e serviços agendados para hoje
           </p>
+        </div>
+        <div>
+          <DatePicker />
         </div>
       </div>
       <div className="pb-24 md:pb-0">
