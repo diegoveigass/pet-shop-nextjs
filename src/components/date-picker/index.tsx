@@ -1,12 +1,12 @@
 "use client";
 
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
-import { Popover, PopoverTrigger } from "../ui/popover";
-import { useCallback, useEffect, useState } from "react";
 import { addDays, format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import { Popover, PopoverTrigger } from "../ui/popover";
 
 export default function DatePicker() {
   const router = useRouter();
