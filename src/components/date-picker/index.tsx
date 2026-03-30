@@ -2,11 +2,17 @@
 
 import { addDays, format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Popover, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function DatePicker() {
   const router = useRouter();
@@ -35,7 +41,7 @@ export default function DatePicker() {
   const [date, setDate] = useState<Date | undefined>();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-  function updateUrlWithDate(newDate: Date) {
+  function updateUrlWithDate(newDate: Date | undefined) {
     if (!newDate) return;
 
     const newParams = new URLSearchParams(searchParams.toString());
@@ -47,6 +53,12 @@ export default function DatePicker() {
   function handleNavigateDay(days: number) {
     const newDate = addDays(date || new Date(), days);
     updateUrlWithDate(newDate);
+  }
+
+  function handleDateSelect(selectedDate: Date | undefined) {
+    updateUrlWithDate(selectedDate);
+    setDate(selectedDate);
+    setIsPopoverOpen(false);
   }
 
   return (
@@ -62,9 +74,9 @@ export default function DatePicker() {
             className="w-min[180px] justify-between text-left font-normal bg-transparent border-border-primary text-content-primary hover:bg-background-tertiary hover:border-border-secondary hover:text-content-primary focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-border-brand focus:border-border-brand focus-visible:border-border-brand"
           >
             <div className="flex items-center gap-2">
-              <Calendar className="size-4 text-content-brand" />
+              <CalendarIcon className="size-4 text-content-brand" />
               {date ? (
-                format(date, "PPP", { locale: ptBR })
+                format(date, "dd/MM/yyyy", { locale: ptBR })
               ) : (
                 <span>Selecione uma data</span>
               )}
@@ -72,6 +84,15 @@ export default function DatePicker() {
             <ChevronDown className="size-4 text-content-secondary opacity-50" />
           </Button>
         </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+            autoFocus
+            locale={ptBR}
+          />
+        </PopoverContent>
       </Popover>
 
       <Button variant="outline" onClick={() => handleNavigateDay(1)}>
