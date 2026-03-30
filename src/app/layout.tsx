@@ -1,3 +1,4 @@
+import { Header } from "@/components/header";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -29,8 +30,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.variable} ${interTight.variable} antialiased`}>
-        {children}
-        <Toaster position="top-right" richColors />
+        <Header />
+        <div
+          className="
+        max-w-3xl mx-auto"
+        >
+          <main className="flex-1 flex flex-col mt-12">
+            {children}
+            <Toaster position="top-right" richColors />
+          </main>
+        </div>
       </body>
     </html>
   );
